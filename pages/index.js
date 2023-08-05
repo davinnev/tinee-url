@@ -4,6 +4,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [url, setUrl] = useState("");
+  const [shortened, setShortened] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,8 +30,11 @@ export default function Home() {
     // Handle the response
     if (response.ok) {
       // Request was successful
-      const data = await response.json();
-      console.log(data); // Handle the response data as needed
+      const resJSON = await response.json();
+      console.log(resJSON); // Handle the response data as needed
+      console.log(resJSON.data.token);
+      setShortened(`https://tinee-url.vercel.app/${resJSON.data.token}`);
+      setUrl("");
     } else {
       // Request failed
       console.log("Request failed");
@@ -60,26 +64,46 @@ export default function Home() {
       `}</style>
 
       <main>
-        <section className={styles.hero}>
-          <h1>Shorten your URLs and share them easily!</h1>
-          <br />
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <input
-              className={styles.inputbox}
-              type="text"
-              id="fname"
-              name="fname"
-              placeholder="Input original URL here"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-            />
-            <button className={styles.button} href="" type="submit">
-              Shorten URL!
+        {shortened ? (
+          <section className={styles.hero}>
+            <h1>Shorten your URLs and share them easily!</h1>
+            <br />
+            <h3>
+              Your shortened URL is{" "}
+              <span>
+                {" "}
+                <a href={shortened} target="_blank">
+                  {shortened}{" "}
+                </a>
+              </span>
+            </h3>
+            <br />
+            <button className={styles.button} href="" type="">
+              Shorten another
             </button>
-          </form>
-          <br />
-          <p></p>
-        </section>
+          </section>
+        ) : (
+          <section className={styles.hero}>
+            <h1>Shorten your URLs and share them easily!</h1>
+            <br />
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <input
+                className={styles.inputbox}
+                type="text"
+                id="fname"
+                name="fname"
+                placeholder="Input original URL here"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+              />
+              <button className={styles.button} href="" type="submit">
+                Shorten URL!
+              </button>
+            </form>
+            <br />
+            <p></p>
+          </section>
+        )}
       </main>
     </div>
   );
