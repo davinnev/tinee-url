@@ -1,4 +1,3 @@
-import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
 
@@ -33,12 +32,17 @@ export default function Home() {
       const resJSON = await response.json();
       console.log(resJSON); // Handle the response data as needed
       console.log(resJSON.data.token);
-      setShortened(`https://tinee-url.vercel.app/${resJSON.data.token}`);
+      setShortened(`http://localhost:3000/${resJSON.data.token}`);
       setUrl("");
     } else {
       // Request failed
       console.log("Request failed");
     }
+  };
+
+  const handleReset = () => {
+    setUrl("");
+    setShortened("");
   };
 
   return (
@@ -78,7 +82,11 @@ export default function Home() {
               </span>
             </h3>
             <br />
-            <button className={styles.button} href="" type="">
+            <button
+              className={styles.button}
+              onClick={handleReset}
+              type="button"
+            >
               Shorten another
             </button>
           </section>
