@@ -1,7 +1,42 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import { useState } from "react";
 
 export default function Home() {
+  const [url, setUrl] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Create an object with the form data
+    const formData = {
+      url: url,
+      customHash: "",
+    };
+
+    // Send a POST request to your Next.js API endpoint
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_HOST}/api/shorten-url`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+
+    // Handle the response
+    if (response.ok) {
+      // Request was successful
+      const data = await response.json();
+      console.log(data); // Handle the response data as needed
+    } else {
+      // Request failed
+      console.log("Request failed");
+    }
+  };
+
   return (
     <div className={styles.page}>
       <div className={styles.header}>
@@ -28,17 +63,19 @@ export default function Home() {
         <section className={styles.hero}>
           <h1>Shorten your URLs and share them easily!</h1>
           <br />
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={handleSubmit}>
             <input
               className={styles.inputbox}
               type="text"
               id="fname"
               name="fname"
               placeholder="Input original URL here"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
             />
-            <a className={styles.button} href="">
+            <button className={styles.button} href="" type="submit">
               Shorten URL!
-            </a>
+            </button>
           </form>
           <br />
           <p></p>

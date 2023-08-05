@@ -41,6 +41,8 @@ export const handler = async (event) => {
     body: JSON.stringify({
       success: true,
       message: "Successfully insert token.",
+      url: body.url,
+      token: token,
     }),
   };
 };
