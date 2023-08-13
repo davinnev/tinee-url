@@ -52,10 +52,14 @@ export default function Home() {
         <div className={styles.featlist}>
           <ul>
             <li>
-              <a href="#">Sign Up</a>
+              <a href="#" className={styles.signup}>
+                Sign Up
+              </a>
             </li>
             <li>
-              <a href="#">Sign In</a>
+              <a href="#" className={styles.signin}>
+                Sign In
+              </a>
             </li>
           </ul>
         </div>
@@ -96,6 +100,7 @@ export default function Home() {
             <br />
             <form className={styles.form} onSubmit={handleSubmit}>
               <input
+                required
                 className={styles.inputbox}
                 type="text"
                 id="fname"

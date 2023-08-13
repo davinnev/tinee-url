@@ -3,8 +3,7 @@
 }
 
 .header {
-  background-color: #273043;
-  color: #fff;
+  color: #273043;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,6 +14,7 @@
 
 .header h3 {
   margin-left: 10px;
+  font-size: 25px;
 }
 
 .logo a {
@@ -36,13 +36,28 @@
 }
 
 .featlist a {
-  color: #fff;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 15px;
+  border-radius: 15px;
+  padding: 10px;
+  padding-left: 25px;
+  padding-right: 25px;
+  border: 2px solid #273043;
+}
+
+.signup {
+  background-color: #273043;
+  color: #fff;
+}
+
+.signin {
+  color: #273043;
+  border-radius: 5px;
 }
 
 .featlist a:hover {
-  text-decoration: underline;
+  background-color: #9bc7da;
+  border-color: #9bc7da;
 }
 
 .form {
@@ -59,30 +74,31 @@
   font-size: 16px;
   margin-right: 30px;
   padding-left: 15px;
-  background-color: #eff6ee;
+  background-color: #fff;
   color: #273043;
-  border-radius: 5px;
+  border-radius: 15px;
   border-color: #273043;
 }
 
 .button {
   background-color: #273043;
   color: #fff;
-  border-radius: 5px;
+  border-radius: 15px;
   text-decoration: none;
   height: 45px;
   width: 150px;
   text-align: center;
   vertical-align: center;
-  line-height: 45px;
+  font-size: 15px;
 }
 
 .button:hover {
-  background-color: #9197ae;
+  background-color: #9bc7da;
+  border-color: #9bc7da;
 }
 
 .hero {
-  background-color: #eff6ee;
+  background-color: #fff;
   padding: 50px;
   display: flex;
   flex-direction: column;
