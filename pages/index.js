@@ -32,7 +32,7 @@ export default function Home() {
       const resJSON = await response.json();
       console.log(resJSON); // Handle the response data as needed
       console.log(resJSON.data.token);
-      setShortened(`http://localhost:3000/${resJSON.data.token}`);
+      setShortened(`https://tinee-url.vercel.app//${resJSON.data.token}`);
       setUrl("");
     } else {
       // Request failed
