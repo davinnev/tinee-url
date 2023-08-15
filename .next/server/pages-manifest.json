@@ -3,5 +3,7 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/api/shorten-url": "pages/api/shorten-url.js"
+  "/api/signin": "pages/api/signin.js",
+  "/signin": "pages/signin.js",
+  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js"
 }
