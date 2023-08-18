@@ -1,6 +1,5 @@
 import styles from "../styles/Home.module.css";
 import { FormEvent, FormEventHandler, useState } from "react";
-import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 
 export default function Home() {
