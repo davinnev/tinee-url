@@ -34,7 +34,7 @@ export const authOptions: NextAuthOptions = {
         }
         return null;*/
 
-        const res = await fetch(`${process.env.NEXT_AUTH_URL}/api/signin`, {
+        const res = await fetch(`${process.env.LAMBDA_VERIFY_SIGNIN}`, {
           method: "POST",
           body: JSON.stringify({
             username: credentials.username,
@@ -46,6 +46,7 @@ export const authOptions: NextAuthOptions = {
           },
         });
         const user = await res.json();
+        console.log("User is: ", user);
 
         if (user.status == 200) {
           return user;
