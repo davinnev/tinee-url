@@ -1,10 +1,19 @@
 import styles from "../styles/Home.module.css";
-import { FormEvent, useState } from "react";
+import { FormEvent, FormEventHandler, useState } from "react";
 import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
 
 export default function Home() {
   const [url, setUrl] = useState("");
   const [shortened, setShortened] = useState("");
+  const { status, ...session } = useSession();
+
+  console.log(session, status);
+
+  const handleSignOut = async () => {
+    await signOut();
+    console.log(session, status);
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -50,20 +59,37 @@ export default function Home() {
     <div className={styles.page}>
       <div className={styles.header}>
         <h3> TINEE URL </h3>
-        <div className={styles.featlist}>
-          <ul>
-            <li>
-              <a href="/signup" className={styles.signup}>
-                Sign Up
-              </a>
-            </li>
-            <li>
-              <a href="/signin" className={styles.signin}>
-                Sign In
-              </a>
-            </li>
-          </ul>
-        </div>
+        {status === "authenticated" ? (
+          <div className={styles.featlist}>
+            <ul>
+              <li>
+                <a href="/" className={styles.signup}>
+                  Profile
+                </a>
+              </li>
+              <li>
+                <a className={styles.signin} onClick={handleSignOut}>
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        ) : (
+          <div className={styles.featlist}>
+            <ul>
+              <li>
+                <a href="/auth/signup" className={styles.signup}>
+                  Sign Up
+                </a>
+              </li>
+              <li>
+                <a href="/auth/signin" className={styles.signin}>
+                  Login
+                </a>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
       <style jsx global>{`
         body {
@@ -110,7 +136,7 @@ export default function Home() {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
               />
-              <button className={styles.button} href="" type="submit">
+              <button className={styles.button} type="submit">
                 Shorten URL!
               </button>
             </form>

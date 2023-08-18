@@ -33,31 +33,16 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  /*
-  secret: process.env.JWT_SECRET,
-  pages: {
-    signIn: '/login',
+  secret: process.env.SECRET,
+  session: {
+    strategy: "jwt",
   },
-
-  callbacks: {
-    async jwt({ token, user, account }) {
-      if (account && user) {
-        return {
-          ...token,
-          accessToken: user.token,
-          refreshToken: user.refreshToken,
-        };
-      }
-
-      return token;
-    },
-
-    async session({ session, token }) {
-      session.user.accessToken = token.accessToken;
-        
-      return session;
-    },
-  },*/
+  pages: {
+    signIn: "/signin",
+  },
+  jwt: {
+    secret: process.env.SECRET,
+  },
 };
 
 export default NextAuth(authOptions);
