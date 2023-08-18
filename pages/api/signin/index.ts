@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { MongoClient } from "mongodb";
+import bodyParser from "body-parser";
 
 const client = new MongoClient(process.env.MONGODB_URI);
 const userCollection = client.db("TinyUrl").collection("users");
@@ -7,6 +8,7 @@ const userCollection = client.db("TinyUrl").collection("users");
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const username = req.body.username;
   const password = req.body.password;
+  //console.log(req.body);
 
   console.log(req);
   if (req.body.type == "SignIn") {

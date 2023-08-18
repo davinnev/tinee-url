@@ -17,6 +17,21 @@ export const authOptions: NextAuthOptions = {
           type: "SignIn",
         };
         console.log(formData);
+
+        /*const request = new Request(
+          `${process.env.NEXT_PUBLIC_HOST}/api/signin`,
+          {
+            method: "POST",
+            body: JSON.stringify(formData),
+          }
+        );
+
+        const user = await request.json();
+        if (user.status == 200) {
+          return user;
+        }
+        return null;*/
+
         const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/signin`, {
           method: "POST",
           body: JSON.stringify(formData),
