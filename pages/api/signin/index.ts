@@ -7,9 +7,9 @@ const userCollection = client.db("TinyUrl").collection("users");
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const username = req.body.username;
   const password = req.body.password;
-  //console.log(req.body);
+  console.log(req.body);
 
-  console.log(req);
+  //console.log(req);
   if (req.body.type == "SignIn") {
     console.log("Lol");
     const isFound = await userCollection.findOne({
