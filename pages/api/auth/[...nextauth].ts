@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { Buffer } from "buffer";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -32,11 +33,13 @@ export const authOptions: NextAuthOptions = {
         }
         return null;*/
 
+        const contentLength = Buffer.byteLength(JSON.stringify(formData));
         const res = await fetch(`${process.env.NEXT_AUTH_URL}/api/signin`, {
           method: "POST",
           body: JSON.stringify(formData),
           headers: {
             "Content-Type": "application/json",
+            "Content-Length": contentLength.toString(),
           },
         });
         const user = await res.json();
