@@ -11,7 +11,7 @@ export default function Home() {
 
   const handleSignOut = async () => {
     await signOut();
-    console.log(session, status);
+    window.location.href = "https://tinee.vercel.app";
   };
 
   const handleSubmit = async (e: FormEvent) => {
