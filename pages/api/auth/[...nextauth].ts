@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
         }
         return null;*/
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/signin`, {
+        const res = await fetch(`${process.env.NEXT_AUTH_URL}/api/signin`, {
           method: "POST",
           body: JSON.stringify(formData),
           headers: {
