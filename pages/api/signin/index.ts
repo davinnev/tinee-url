@@ -3,7 +3,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   console.log(req.body);
 
-  console.log(req);
   if (req.body.type == "SignUp") {
     try {
       const response = await fetch(`${process.env.LAMBDA_VERIFY_SIGNIN}`, {
