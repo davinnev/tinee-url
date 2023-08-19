@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import {
   useSession,
@@ -7,15 +7,26 @@ import {
   GetSessionParams,
 } from "next-auth/react";
 
-const ProfilePage = (props) => {
-  const { status, ...session } = useSession();
+const ProfilePage = () => {
+  const [user, setUser] = useState(null);
+  const { status, data: session } = useSession();
 
   const handleSignOut = async () => {
     await signOut();
-    window.location.href = `${process.env.NEXT_AUTH_URL}`;
+    window.location.href = `${process.env.NEXT_PUBLIC_HOST}`;
   };
 
-  console.log("Session from clientside: ", session);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const session = await getSession();
+      if (session) {
+        setUser(session.user);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
   return (
     <>
       <Head>
@@ -40,15 +51,18 @@ const ProfilePage = (props) => {
           }}
         >
           <h1>User Profile</h1>
-          <h3>Username </h3>
-          <p style={{ fontStyle: "italic" }}> {props.user.name}</p>
-          <h3>Account Creation Date </h3>
-          <p style={{ fontStyle: "italic" }}> {props.user.email}</p>
-          <h3>Account Tier</h3>
-          <p style={{ fontStyle: "italic" }}>Free</p>
+          {user && (
+            <>
+              <h3>Username </h3>
+              <p style={{ fontStyle: "italic" }}>{user.name}</p>
+              <h3>Account Creation Date </h3>
+              <p style={{ fontStyle: "italic" }}>{user.email}</p>
+              <h3>Account Tier</h3>
+              <p style={{ fontStyle: "italic" }}>Free</p>
+            </>
+          )}
 
           <div style={{ marginTop: "110%" }}>
-            {" "}
             <a
               onClick={handleSignOut}
               style={{
@@ -95,16 +109,3 @@ const ProfilePage = (props) => {
 };
 
 export default ProfilePage;
-
-export async function getServerSideProps(ctx: GetSessionParams) {
-  const session = await getSession(ctx);
-  if (!session) {
-    return {
-      props: {},
-    };
-  }
-  const { user } = session;
-  return {
-    props: { user },
-  };
-}
