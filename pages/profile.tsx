@@ -1,23 +1,18 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
-import { useSession, signOut, getSession } from "next-auth/react";
+import {
+  useSession,
+  signOut,
+  getSession,
+  GetSessionParams,
+} from "next-auth/react";
 
 const ProfilePage = (props) => {
   const { status, ...session } = useSession();
-  useEffect(() => {}, [session.data]);
 
   const handleSignOut = async () => {
     await signOut();
-    window.location.href = `${process.env.NEXT_PUBLIC_HOST}`;
-  };
-
-  const getCreateDate = () => {
-    const createDate = new Date(session?.data?.user?.email);
-    return `${createDate.getFullYear()}/${createDate.getMonth()}/${createDate.getDay()}`;
-  };
-
-  const getUsername = () => {
-    return session?.data?.user?.name;
+    window.location.href = `${process.env.NEXT_AUTH_URL}`;
   };
 
   console.log("Session from clientside: ", session);
@@ -101,7 +96,7 @@ const ProfilePage = (props) => {
 
 export default ProfilePage;
 
-export async function getServerSideProps(ctx) {
+export async function getServerSideProps(ctx: GetSessionParams) {
   const session = await getSession(ctx);
   if (!session) {
     return {
