@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const urlData = await urlCollection.findOne({ hash: token });
 
-    if (urlData && urlData.url) {
+    if (urlData?.url) {
       return res.status(200).json({
         message: "success",
         url: urlData.url,

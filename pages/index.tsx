@@ -1,17 +1,17 @@
 import styles from "../styles/Home.module.css";
 import { FormEvent, FormEventHandler, useState } from "react";
-import { useSession, signOut } from "next-auth/react";
+import { useSession, signOut, getSession } from "next-auth/react";
 
 export default function Home() {
   const [url, setUrl] = useState("");
   const [shortened, setShortened] = useState("");
-  const { status, ...session } = useSession();
+  const { status, data, ...session } = useSession();
 
-  console.log(session, status);
+  console.log(data);
 
   const handleSignOut = async () => {
     await signOut();
-    window.location.href = "https://tinee.vercel.app";
+    window.location.href = `${process.env.NEXT_PUBLIC_HOST}`;
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -41,7 +41,7 @@ export default function Home() {
       const resJSON = await response.json();
       console.log(resJSON); // Handle the response data as needed
       console.log(resJSON.data.token);
-      setShortened(`https://tinee-url.vercel.app//${resJSON.data.token}`);
+      setShortened(`https://tinee.vercel.app/${resJSON.data.token}`);
       setUrl("");
     } else {
       // Request failed
@@ -62,7 +62,7 @@ export default function Home() {
           <div className={styles.featlist}>
             <ul>
               <li>
-                <a href="/" className={styles.signup}>
+                <a href="/profile" className={styles.signup}>
                   Profile
                 </a>
               </li>

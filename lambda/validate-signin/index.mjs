@@ -21,14 +21,19 @@ export const handler = async (event) => {
     if (!isFound) {
       const response = {
         statusCode: 404,
-        body: JSON.stringify("Failed logging in"),
+        body: JSON.stringify({
+          message: "User not found",
+          name: null,
+        }),
       };
       return response;
     }
+
+    const createDate = isFound.createDate.toString();
     const data = {
-      status: 200,
-      username: isFound.username,
-      password: isFound.password,
+      _id: createDate,
+      email: createDate,
+      name: isFound.username,
     };
     const response = {
       statusCode: 200,
@@ -46,7 +51,12 @@ export const handler = async (event) => {
       };
       return response;
     }
-    userCollection.insertOne({ username: username, password: password });
+    const createDate = new Date();
+    userCollection.insertOne({
+      username: username,
+      password: password,
+      createDate: createDate,
+    });
     const response = {
       statusCode: 200,
       body: JSON.stringify("Successfully signup"),

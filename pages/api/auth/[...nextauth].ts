@@ -1,6 +1,8 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { Awaitable, NextAuthOptions, Session, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { Buffer } from "buffer";
+import Adapters from "next-auth/adapters";
+import { AdapterUser } from "next-auth/adapters";
+import { JWT } from "next-auth/jwt";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -46,12 +48,19 @@ export const authOptions: NextAuthOptions = {
           },
         });
         const user = await res.json();
-        console.log("User is: ", user);
+        console.log("User is from creds: ", user);
 
-        if (user.status == 200) {
+        if (user.name) {
           return user;
         }
         return null;
+        /*
+        const user2 = {
+          _id: "612b4646c41e9e9f5068727a",
+          email: "email@test.com",
+          name: "admin",
+        };
+        return user2;*/
       },
     }),
   ],
@@ -64,6 +73,31 @@ export const authOptions: NextAuthOptions = {
   },
   jwt: {
     secret: process.env.SECRET,
+  },
+  callbacks: {
+    /*async signIn({ user }) {
+      return user.username;
+    },*/
+    async jwt({ token, profile }) {
+      console.log("Profile: ", profile);
+      console.log("Token: ", token);
+
+      if (profile) {
+        return { ...token, user: profile };
+      }
+      return token;
+    },
+    async session({ session, token }: any) {
+      console.log(token);
+      /*console.log("User is: ", user);
+      console.log("Session is: ", session);
+      session.user = user;
+      console.log("Session is: ", session);
+      return Promise.resolve(session);*/
+      session.user.username = token.username;
+      console.log("Session is: ", session);
+      return Promise.resolve(session);
+    },
   },
 };
 
