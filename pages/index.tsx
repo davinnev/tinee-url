@@ -77,7 +77,7 @@ export default function Home() {
           <div className={styles.featlist}>
             <ul>
               <li>
-                <a href="/auth/signup" className={styles.signup}>
+                <a href="/signup" className={styles.signup}>
                   Sign Up
                 </a>
               </li>

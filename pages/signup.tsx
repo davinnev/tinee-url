@@ -1,19 +1,15 @@
-import { useState } from "react";
+import { FormEventHandler, useState } from "react";
 
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignUp = async () => {
+  const handleSignUp: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
     // Perform any client-side validation here
 
     // Create a new user with the provided username and password
     try {
-      const formData = {
-        username: username,
-        password: password,
-        type: "SignUp",
-      };
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_HOST}/api/signin`,
         {
@@ -21,15 +17,20 @@ function SignUp() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({
+            username: username,
+            password: password,
+            type: "SignUp",
+          }),
         }
       );
 
-      if (response.ok) {
+      console.log(response);
+      if (response.status === 200) {
         // User registration successful
         // Redirect or show a success message
         console.log("SignUp successful");
-        window.location.href = "/signin";
+        window.location.href = "/auth/signin";
       } else {
         console.log("Signup not successful");
       }

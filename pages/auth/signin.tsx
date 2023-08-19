@@ -143,7 +143,7 @@ function SignIn() {
             }}
           >
             Don't have an account?{" "}
-            <a href="/auth/signup" style={{ color: "#273043" }}>
+            <a href="/signup" style={{ color: "#273043" }}>
               Sign up
             </a>
           </p>
@@ -182,7 +182,7 @@ function SignIn() {
             }}
           >
             Don't have an account?{" "}
-            <a href="/auth/signup" style={{ color: "#273043" }}>
+            <a href="/signup" style={{ color: "#273043" }}>
               Sign up
             </a>
           </p>
