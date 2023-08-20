@@ -3,8 +3,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     // Subscribe
-    const { url } = req.body;
-    let lambdaRes = null;
+    //const { url, customHash } = req.body;
+    //let lambdaRes = null;
 
     try {
       const response = await (
@@ -13,7 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ url: url }),
+          body: JSON.stringify(req.body),
         })
       ).json();
 
@@ -24,14 +24,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           message: "success",
           data: response,
         });
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: "Token taken.",
+        });
       }
-
-      return res.status(200).json({
-        success: false,
-        message: "Invalid token.",
-      });
     } catch (error) {
-      return res.status(200).json({
+      return res.status(404).json({
         success: false,
         message: "Invalid token.",
       });

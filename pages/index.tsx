@@ -1,13 +1,26 @@
 import styles from "../styles/Home.module.css";
-import { FormEvent, FormEventHandler, useState } from "react";
+import { FormEvent, FormEventHandler, useEffect, useState } from "react";
 import { useSession, signOut, getSession } from "next-auth/react";
 
 export default function Home() {
   const [url, setUrl] = useState("");
+  const [custom, setCustom] = useState("");
   const [shortened, setShortened] = useState("");
   const { status, data, ...session } = useSession();
+  const [user, setUser] = useState(null);
 
   console.log(data);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const session = await getSession();
+      if (session) {
+        setUser(session.user);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const handleSignOut = async () => {
     await signOut();
@@ -18,9 +31,11 @@ export default function Home() {
     e.preventDefault();
 
     // Create an object with the form data
+
     const formData = {
       url: url,
-      customHash: "",
+      customHash: custom,
+      username: user?.name || "",
     };
 
     // Send a POST request to your Next.js API endpoint
@@ -34,15 +49,18 @@ export default function Home() {
         body: JSON.stringify(formData),
       }
     );
+    const res = await response.json();
 
     // Handle the response
+    setUrl("");
+    setCustom("");
     if (response.ok) {
       // Request was successful
-      const resJSON = await response.json();
-      console.log(resJSON); // Handle the response data as needed
-      console.log(resJSON.data.token);
-      setShortened(`https://tinee.vercel.app/${resJSON.data.token}`);
-      setUrl("");
+      console.log(res.data.token);
+      setShortened(`https://tinee.vercel.app/${res.data.token}`);
+    } else if (res.message === "Token taken.") {
+      window.location.href = "/";
+      alert("Token already in use");
     } else {
       // Request failed
       console.log("Request failed");
@@ -51,6 +69,7 @@ export default function Home() {
 
   const handleReset = () => {
     setUrl("");
+    setCustom("");
     setShortened("");
   };
 
@@ -125,16 +144,28 @@ export default function Home() {
             <h1>Shorten your URLs and share them easily!</h1>
             <br />
             <form className={styles.form} onSubmit={handleSubmit}>
-              <input
-                required
-                className={styles.inputbox}
-                type="text"
-                id="fname"
-                name="fname"
-                placeholder="Input original URL here"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-              />
+              <div className={styles.inputContainer}>
+                <input
+                  required
+                  className={styles.inputbox}
+                  type="text"
+                  id="fname"
+                  name="fname"
+                  placeholder="Original URL"
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                />
+                <input
+                  required
+                  className={styles.inputbox}
+                  type="text"
+                  id="fname2"
+                  name="fname2"
+                  placeholder="Custom token (leave empty to randomize)"
+                  value={custom}
+                  onChange={(e) => setCustom(e.target.value)}
+                />
+              </div>
               <button className={styles.button} type="submit">
                 Shorten URL!
               </button>

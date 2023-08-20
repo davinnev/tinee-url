@@ -3,9 +3,10 @@ import { MongoClient } from "mongodb";
 const client = new MongoClient(process.env.MONGODB_URI);
 
 export const handler = async (event) => {
+  const urlCollection = client.db("TinyUrl").collection("url");
+
   console.log(event.body);
   const body = JSON.parse(event.body);
-  const urlCollection = client.db("TinyUrl").collection("url");
 
   function generateToken() {
     const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -18,20 +19,38 @@ export const handler = async (event) => {
   }
   console.log(urlCollection);
   let token = "";
+  let isTokenAvailable = true;
 
   if (!body.customHash) {
-    let isTokenAvailable = true;
-
     while (isTokenAvailable) {
-      generateToken();
+      if (!body.customHash) generateToken();
       console.log(token);
       isTokenAvailable = await urlCollection.findOne({ hash: token });
     }
   } else {
     token = body.customHash;
+    isTokenAvailable = await urlCollection.findOne({ hash: token });
+    if (isTokenAvailable) {
+      return {
+        statusCode: 404,
+        headers: {},
+        body: JSON.stringify({
+          success: false,
+          message: "Token not available",
+          url: body.url,
+          token: token,
+        }),
+      };
+    }
   }
 
-  urlCollection.insertOne({ hash: token, url: body.url });
+  const createDate = new Date();
+  urlCollection.insertOne({
+    hash: token,
+    url: body.url,
+    creator: body.name,
+    createDate: createDate,
+  });
 
   console.log(token);
 
