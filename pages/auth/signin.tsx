@@ -6,10 +6,12 @@ function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [successful, setSuccessful] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const session = useSession();
 
   const handleSignIn: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const result = await signIn("credentials", {
       username,
@@ -29,6 +31,7 @@ function SignIn() {
       console.log(session);
       window.location.href = "/";
     }
+    setLoading(false);
   };
 
   return (
@@ -122,8 +125,10 @@ function SignIn() {
                 borderColor: "#fff",
               }}
               type="submit"
+              disabled={isLoading}
             >
-              Login
+              {isLoading ? "Loading..." : "Login"}{" "}
+              {/* Display "Loading..." text while loading */}
             </button>
           </form>
         </div>

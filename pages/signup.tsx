@@ -3,9 +3,12 @@ import { FormEventHandler, useState } from "react";
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
   const handleSignUp: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     // Perform any client-side validation here
 
     // Create a new user with the provided username and password
@@ -37,6 +40,7 @@ function SignUp() {
     } catch (error) {
       // Handle any network or server errors
     }
+    setLoading(false);
   };
 
   return (
@@ -130,8 +134,10 @@ function SignUp() {
                 borderColor: "#fff",
               }}
               type="submit"
+              disabled={isLoading}
             >
-              Sign Up
+              {isLoading ? "Loading..." : "Sign Up"}{" "}
+              {/* Display "Loading..." text while loading */}
             </button>
           </form>
         </div>

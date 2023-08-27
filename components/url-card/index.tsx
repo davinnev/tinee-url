@@ -11,11 +11,11 @@ export function URLCard(props: URLCardProps) {
   const cardStyles = {
     card: {
       width: "100%",
+      maxWidth: "1060px",
       backgroundColor: "#DEE4E7",
       borderRadius: "15px",
       overflow: "hidden",
       display: "table",
-      maxHeight: "5px",
       paddingBottom: "10px",
       paddingTop: "5px",
       //boxShadow: "5px 5px #273043",
@@ -25,8 +25,10 @@ export function URLCard(props: URLCardProps) {
       color: "#273043",
     },
     data: {
+      marginRight: "10px",
       marginLeft: "10px",
       fontSize: "14px",
+      maxWidth: "1000px",
     },
     token: {
       marginBottom: "0",

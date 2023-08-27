@@ -8,6 +8,7 @@ export default function Home() {
   const [shortened, setShortened] = useState("");
   const { status, data, ...session } = useSession();
   const [user, setUser] = useState(null);
+  const [isLoading, setLoading] = useState(false);
 
   console.log(data);
 
@@ -29,6 +30,7 @@ export default function Home() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     // Create an object with the form data
 
@@ -65,6 +67,7 @@ export default function Home() {
       // Request failed
       console.log("Request failed");
     }
+    setLoading(false);
   };
 
   const handleReset = () => {
@@ -165,8 +168,12 @@ export default function Home() {
                   onChange={(e) => setCustom(e.target.value)}
                 />
               </div>
-              <button className={styles.button} type="submit">
-                Shorten URL!
+              <button
+                className={styles.button}
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? "Loading..." : "Shorten URL!"}
               </button>
             </form>
             <br />

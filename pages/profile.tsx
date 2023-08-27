@@ -68,11 +68,11 @@ const ProfilePage = () => {
       >
         <div
           style={{
-            flex: "0 0 25%",
+            flex: "0 0 20%",
             backgroundColor: "#273043",
             color: "#fff",
             padding: "20px",
-            paddingLeft: "40px",
+            paddingLeft: "30px",
           }}
         >
           <h1>User Profile</h1>
@@ -87,7 +87,15 @@ const ProfilePage = () => {
             </>
           )}
 
-          <div style={{ marginTop: "110%" }}>
+          <div
+            style={{
+              position: "absolute",
+              bottom: "20px",
+              left: "10%",
+              transform: "translateX(-50%)",
+              marginBottom: "20px",
+            }}
+          >
             <a
               onClick={handleSignOut}
               style={{

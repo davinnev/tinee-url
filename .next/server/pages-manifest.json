@@ -2,9 +2,9 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/profile": "pages/profile.js",
-  "/auth/signin": "pages/auth/signin.js",
-  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
   "/": "pages/index.js",
-  "/api/profile-data": "pages/api/profile-data.js"
+  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
+  "/auth/signin": "pages/auth/signin.js",
+  "/signup": "pages/signup.js",
+  "/api/shorten-url": "pages/api/shorten-url.js"
 }
