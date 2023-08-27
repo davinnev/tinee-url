@@ -156,7 +156,6 @@ export default function Home() {
                   onChange={(e) => setUrl(e.target.value)}
                 />
                 <input
-                  required
                   className={styles.inputbox}
                   type="text"
                   id="fname2"

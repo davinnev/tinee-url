@@ -65,6 +65,7 @@
   justify-content: space-between;
   align-items: center;
   height: 40px;
+  max-width: 965px;
 }
 
 .inputContainer {

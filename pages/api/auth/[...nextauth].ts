@@ -95,7 +95,7 @@ export const authOptions: NextAuthOptions = {
       console.log("Session is: ", session);
       return Promise.resolve(session);*/
       session.user.username = token.username;
-      console.log("Session is: ", session);
+      //console.log("Session is: ", session);
       return Promise.resolve(session);
     },
   },

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { URLCard } from "../components/url-card";
 import Head from "next/head";
 import {
   useSession,
@@ -9,12 +10,8 @@ import {
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
+  const [userUrls, setUserUrls] = useState([]);
   const { status, data: session } = useSession();
-
-  const handleSignOut = async () => {
-    await signOut();
-    window.location.href = `${process.env.NEXT_PUBLIC_HOST}`;
-  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -26,6 +23,34 @@ const ProfilePage = () => {
 
     fetchUser();
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user) {
+        console.log("User: ", user);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_HOST}/api/profile-data`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username: user.name }),
+          }
+        );
+        const res = await response.json();
+        console.log(res);
+        setUserUrls(res.data);
+        console.log(userUrls);
+      }
+    };
+    fetchData();
+  }, [user]);
+
+  const handleSignOut = async () => {
+    await signOut();
+    window.location.href = `${process.env.NEXT_PUBLIC_HOST}`;
+  };
 
   return (
     <>
@@ -102,6 +127,17 @@ const ProfilePage = () => {
         </div>
         <div style={{ flex: 1, padding: "20px" }}>
           {/* Right part content */}
+          {userUrls.map((userUrl) => (
+            <div>
+              <URLCard
+                url={userUrl.url}
+                token={userUrl.hash}
+                createDate={userUrl.createDate}
+                expiredDate={userUrl.expiredDate}
+              />
+              <br />
+            </div>
+          ))}
         </div>
       </div>
     </>

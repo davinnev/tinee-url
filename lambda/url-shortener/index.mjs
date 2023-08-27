@@ -45,11 +45,20 @@ export const handler = async (event) => {
   }
 
   const createDate = new Date();
+  const expiredDate = new Date();
+
+  expiredDate.setDate(expiredDate.getDate() + 30);
+  expiredDate.setHours(23);
+  expiredDate.setMinutes(59);
+  expiredDate.setSeconds(59);
+  expiredDate.setMilliseconds(999);
+
   urlCollection.insertOne({
     hash: token,
     url: body.url,
-    creator: body.name,
+    creator: body.username,
     createDate: createDate,
+    expiredDate: expiredDate,
   });
 
   console.log(token);
